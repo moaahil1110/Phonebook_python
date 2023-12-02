@@ -9,9 +9,9 @@ print(date)
 class Phonebook(object):
     def __init__(self,master): 
         self.master=master
-        top=Frame(master,height=150, bg='red', bg=8, relief=GROOVE)
+        top=Frame(master,height=150, bg='blue', bg=8, relief=GROOVE)
         top.pack(fill=X)
-        bottom=Frame(master, height=500, bg='lightred', bd=8, relief=GROOVE)
+        bottom=Frame(master, height=500, bg='skyblue', bd=8, relief=GROOVE)
         bottom.pack(fill=X)
         heading=Label(top, text='PhoneBook App', font='arial 40 bold italic', bg='blue', fg='red')
         heading.place(x=70,y=30)
@@ -20,7 +20,7 @@ class Phonebook(object):
         
 def main():
     win = Tk()
-    app=Phonebook(win)
+    app = Phonebook(win)
     win.title('Phonebookapp') 
     win.geometry('650x570+300+60')
     win.resizable(False,False)
