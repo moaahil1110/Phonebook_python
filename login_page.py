@@ -9,7 +9,7 @@ print(date)
 class Phonebook(object):
     def __init__(self,master): 
         self.master=master
-        top=Frame(master,height=150, bg='blue', bg=8, relief=GROOVE)
+        top=Frame(master,height=150, bg='blue',bg=8, relief=GROOVE)
         top.pack(fill=X)
         bottom=Frame(master, height=500, bg='skyblue', bd=8, relief=GROOVE)
         bottom.pack(fill=X)
