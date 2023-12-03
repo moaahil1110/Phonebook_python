@@ -1,4 +1,4 @@
-from tkinter import*
+from tkinter import *
 import datetime
 
 date=datetime.datetime.now()
@@ -15,8 +15,11 @@ class Phonebook(object):
         bottom.pack(fill=X)
         heading=Label(top, text='PhoneBook App', font='arial 40 bold italic', bg='#14635f', fg='red')
         heading.place(x=70,y=30)
-        date1=Label(top, texxt="Today's date :"+date, font='arial 15 bold', bg='#14635f')
+        date1=Label(top, text="Today's date :"+date, font='arial 15 bold', bg='#14635f') 
         date1.place(x=370,y=100)
+        self.login_design()
+        
+        
         def login_design(self):
             f1=Frame(self.bottom,height=340,width=390,bg='red',bd='15',relief=GROOVE)
             f1.place(x=120,y=40)
