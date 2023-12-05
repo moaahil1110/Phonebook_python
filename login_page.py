@@ -6,6 +6,8 @@ from tkinter import messagebox
 
 date=datetime.datetime.now()
 date=date.strftime('%d-%m-%Y')
+time=datetime.datetime.now()
+time=time.strftime('%h-%m-%s')
 
 conn=sqlite3.connect('phonebook.db')
 curr=conn.cursor()
