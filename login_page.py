@@ -23,6 +23,7 @@ class Phonebook(object):
         heading.place(x=120,y=30)
         date2=Label(top,text="Today's Date :"+date,font='arial 25 bold',bg='#fc0317')
         date2.place(x=330,y=100)
+        time1=Label(top,text="Time:"+time,font="arial 15 bold",bg='#fc0317')
         self.login_design()
        
     def login_design(self):
