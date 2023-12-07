@@ -6,9 +6,7 @@ from tkinter import messagebox
 
 date=datetime.datetime.now()
 date=date.strftime('%d-%m-%Y')
-time = datetime.datetime.now()
-current_time = time+ datetime.timedelta(hours=1)
-formatted_time = current_time.strftime('%H:%M:%S')
+
 
 
 conn=sqlite3.connect('phonebook.db')
@@ -25,8 +23,6 @@ class Phonebook(object):
         heading.place(x=120,y=30)
         date2=Label(top,text="Today's Date :"+date,font='arial 25 bold',bg='#fc0317')
         date2.place(x=330,y=100)
-        time1=Label(top,text="Time:"+formatted_time,font="arial 15 bold",bg='#fc0317')
-        time1.place(x=150,y=100)
         self.login_design()
        
     def login_design(self):
