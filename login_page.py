@@ -48,7 +48,7 @@ class Phonebook(object):
     def login(self):
         n=self.name_e.get()
         p=self.pwd_e.get()
-        result= curr.execute("select * from login").fetchone()\
+        result= curr.execute("select * from login").fetchone()
         
         name=result[0]
         pwd=result[1]
