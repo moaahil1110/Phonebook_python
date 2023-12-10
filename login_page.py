@@ -39,7 +39,7 @@ class Phonebook(object):
         self.pwd_e=Entry(f2,bd=3)
         self.pwd_e.place(x=150,y=150,height=35,width=170) 
         
-        btn1=Button(f2,width=7,text='Login',font='arial 15 bold',bd=4,relief=GROOVE,bg='#f403fc',command=Main_page)
+        btn1=Button(f2,width=7,text='Login',font='arial 15 bold',bd=4,relief=GROOVE,bg='#f403fc',command=self.login)
         btn1.place(x=140,y=200)
         
         btn2=Button(f2,height=2,width=13,text='Change Password',font='arial 10 bold',bd=4,relief=GROOVE,bg='#fc0303',command=self.Change_design)
@@ -55,9 +55,10 @@ class Phonebook(object):
         
         if n!='' and p!='':
             if name==n and pwd==p:
-             messagebox.showinfo('Success','Login is Successful')
+                login=Main_page()
+                messagebox.showinfo('Success','Login is Successful')
             else:
-             messagebox.showerror('Error','Invalid Credentials')
+                messagebox.showerror('Error','Invalid Credentials')
         else:
             messagebox.showinfo('Information','Enter Your Respective Credentials')     
                 
@@ -134,7 +135,7 @@ class Main_page(Toplevel):
     btn1.place(x=10,y=30)
     btn2=Button(f2,text='Add Contacts',font='arial 18 bold',bg='#02d9fa',bd=5,relief=GROOVE,command=self.add_people)
     btn2.place(x=10,y=110)
-    btn3=Button(f2,text='About Us',font='arial 18 bold',bg='#f059e6',bd=5,relief=GROOVE)
+    btn3=Button(f2,text='About Us',font='arial 18 bold',bg='#f059e6',bd=5,relief=GROOVE,command=self.about_us)
     btn3.place(x=10,y=190)
   
   def add_people(self):
@@ -192,39 +193,184 @@ class Main_page(Toplevel):
             msg2.place(x=80,y=60)
 
   def my_contacts(self):
-        f1=Frame(self.bottom,height=500,width=600)
-        f1.place(x=370,y=10)
+        f1=Frame(self.bottom,height=450,width=600)
+        f1.place(x=325,y=10)
 
-        f2=Frame(f1,height=70,width=600,bg='#ed02c6',bd=10,relief=GROOVE)
+        f2=Frame(f1,height=70,width=650,bg='#ed02c6',bd=10,relief=GROOVE)
         f2.place(x=0,y=0)
 
-        f3=Frame(f1,height=440,width=600,bg='#ed02c6',bd=10,relief=GROOVE)
+        f3=Frame(f1,height=490,width=750,bg='#ed02c6',bd=10,relief=GROOVE)
         f3.place(x=-1,y=60)
 
         heading=Label(f2,text='My Contacts Page',font='arial 25 bold',bg='#ed02c6')
         heading.place(x=150,y=5)
 
         scroll=Scrollbar(f3,orient=VERTICAL)
-        listbox=Listbox(f3,width=50,height=26)
-        listbox.grid(row=0,column=0,padx=(40,0))
-        scroll.config(command=listbox.yview)
-        listbox.config(yscrollcommand=scroll.set)
+        self.listbox=Listbox(f3,width=52,height=28,font='arial 13 bold')
+        self.listbox.grid(row=0,column=0,padx=(40,0))
+        scroll.config(command=self.listbox.yview)
+        self.listbox.config(yscrollcommand=scroll.set)
         scroll.grid(row=0,column=1,sticky=NS)
-
-        for i in range(60):
-            listbox.insert(END,i)
-
-        btnadd=Button(f3,text='Add',width=8,font='Sans 12 bold')
-        btnadd.grid(row=0,column=2,padx=10,pady=10,sticky=N)
-        btndisplay=Button(f3,text='Display',width=8,font='Sans 12 bold')
-        btndisplay.grid(row=0,column=2,padx=10,pady=30,sticky=N)
-        btnupdate=Button(f3,text='Update',width=8,font='Sans 12 bold')
-        btnupdate.grid(row=0,column=2,padx=10,pady=60,sticky=N)
-        btndelete=Button(f3,text='Delete',width=8,font='Sans 12 bold')
-        btndelete.grid(row=0,column=2,padx=10,pady=100,sticky=N)
         
+        person=curr.execute("SELECT * FROM addpeople").fetchall()
+        
+        self.listbox.insert(END, "S.No       Name")
+        self.listbox.insert(END, "---------------------------------")
+
+        for i in person:
+             self.listbox.insert(END, str(i[0]) + ".  " + str(i[1]) + " " + str(i[2]))
+
+
+        btnadd=Button(f3,text='Add',width=8,font='Sans 12 bold',command=self.add_people)
+        btnadd.grid(row=0,column=2,padx=7,pady=7,sticky=N)
+        btndisplay=Button(f3,text='Display',width=8,font='Sans 12 bold',command=self.display_selectid)
+        btndisplay.grid(row=0,column=2,padx=7,pady=33,sticky=N)
+        btnupdate=Button(f3,text='Update',width=8,font='Sans 12 bold',command=self.update_selectid)
+        btnupdate.grid(row=0,column=2,padx=7,pady=63,sticky=N)
+        btndelete=Button(f3,text='Delete',width=8,font='Sans 12 bold',command=self.delete_record)
+        btndelete.grid(row=0,column=2,padx=7,pady=93,sticky=N)
+        
+  def display_selectid(self):
+      try:
+       selected_item=self.listbox.curselection()
+       person=self.listbox.get(selected_item)
+       self.person=person.split(".")[0]
+       print(self.person)
+       self.display()
+      except:
+          pass      
+        
+  def display(self):
+
+      r=Tk()
+      r.title('Display Contacts')
+      r.geometry('410x468+550+200')
+      r.resizable(False,False)
+      
+      try:
+       query="SELECT * FROM addpeople WHERE ID='{}'".format(self.person)
+       result=curr.execute(query).fetchone()
+       fn=result[1]
+       ln=result[2]
+       e=result[3]
+       p=result[4]
+       add=result[5]
+      except: 
+          pass
+      
+      top=Frame(r,height=60, bg='#08d0fc')
+      top.pack(fill=X)
+      bottom=Frame(r,height=500, bg='#dadfe0')
+      bottom.pack(fill=X)
+      
+      Label(top,text="Display Contacts",font='arial 18 bold',bg='#07cdfa',fg='#0730fa').place(x=100,y=15)
+      
+      fname=Label(bottom,text='First Name',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=30)
+      lname=Label(bottom,text='Last Name',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=70)
+      email=Label(bottom,text='Email',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=110)     
+      phone=Label(bottom,text='Phone Number',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=150)
+      address=Label(bottom,text='Address',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=190)
+      
+      d_fname=Label(bottom,text=fn,font='arial 15 bold',bg='#e8e9eb').place(x=180,y=30)
+      d_lname=Label(bottom,text=ln,font='arial 15 bold',bg='#e8e9eb').place(x=180,y=70)
+      d_email=Label(bottom,text=e,font='arial 15 bold',bg='#e8e9eb').place(x=180,y=110)
+      d_phone=Label(bottom,text=p,font='arial 15 bold',bg='#e8e9eb').place(x=180,y=150)
+      d_address=Label(bottom,text=add,font='arial 15 bold',bg='#e8e9eb').place(x=180,y=190)
   
+  def update_selectid(self):
+      try:
+       selected_item=self.listbox.curselection()
+       person=self.listbox.get(selected_item)
+       self.person=person.split(".")[0]
+       print(self.person)
+       self.update()
+      except:
+          pass      
+       
+  def update(self):
+
+      r2=Tk()
+      r2.title('Update Contacts')
+      r2.geometry('410x468+550+200')
+      r2.resizable(False,False)
+      
+      try:
+       query="SELECT * FROM addpeople WHERE ID='{}'".format(self.person)
+       result=curr.execute(query).fetchone()
+       fn=result[1]
+       ln=result[2]
+       e=result[3]
+       p=result[4]
+       add=result[5]
+      except: 
+          pass
+      
+      top=Frame(r2,height=60, bg='#08d0fc')
+      top.pack(fill=X)
+      self.btm=Frame(r2,height=500, bg='#dadfe0')
+      self.btm.pack(fill=X)
+      
+      Label(top,text="Update Contacts",font='arial 18 bold',bg='#07cdfa',fg='#0730fa').place(x=100,y=15)
+      
+      fname=Label(self.btm,text='First Name',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=30)
+      lname=Label(self.btm,text='Last Name',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=70)
+      email=Label(self.btm,text='Email',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=110)     
+      phone=Label(self.btm,text='Phone Number',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=150)
+      address=Label(self.btm,text='Address',font='arial 15 bold',bg='#e8e9eb').place(x=40,y=190) 
+      
+      self.e_fn=Entry(self.btm,width=15,bd=3)
+      self.e_fn.insert(1,fn)
+      self.e_fn.place(x=160,y=30)
+      
+      self.e_ln=Entry(self.btm,width=15,bd=3)
+      self.e_ln.insert(1,ln)
+      self.e_ln.place(x=160,y=70) 
+      
+      self.e_e=Entry(self.btm,width=15,bd=3)
+      self.e_e.insert(1,e)
+      self.e_e.place(x=160,y=110) 
+      
+      self.e_p=Entry(self.btm,width=15,bd=3)
+      self.e_p.insert(1,p)
+      self.e_p.place(x=160,y=150) 
     
+    
+      self.e_add=Entry(self.btm,width=15,bd=3)
+      self.e_add.insert(1,add)
+      self.e_add.place(x=160,y=190)
+      
+      btn=Button(self.btm,width=9,text='UPDATE',bd=5,bg='#02baf7',command=self.update_record)
+      btn.place(x=180,y=260)
+      
+  def update_record(self):
+      id=self.person
+      fname=self.e_fn.get()
+      lname=self.e_ln.get()
+      email=self.e_e.get()
+      phone=self.e_p.get()
+      address=self.e_add.get()
+      
+      query="UPDATE addpeople SET FNAME='{}', LNAME='{}', EMAIL='{}', PHONE='{}', ADDRESS='{}' WHERE id={}".format(fname,lname,email,phone,address,id)
+      curr.execute(query)
+      conn.commit()
+      msg=Label(self.btm, text='Update Successfully.', font='arial 12 bold', bg='lightgray', fg='green') 
+      msg.place(x=40, y=5)
+
+#DELETING RECORD
+  def delete_record(self):
+        try:
+            selected_item = self.listbox.curselection()
+            person = self.listbox.get(selected_item)
+            self.person = person.split(".")[0]
+
+            query = "DELETE FROM addpeople WHERE id={}".format(self.person)
+            curr.execute(query)
+            conn.commit()
+
+        except:
+            pass
+  
+      
 def main():
     win = Tk()
     app = Phonebook(win)
