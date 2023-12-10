@@ -39,7 +39,7 @@ class Phonebook(object):
         self.pwd_e=Entry(f2,bd=3)
         self.pwd_e.place(x=150,y=150,height=35,width=170) 
         
-        btn1=Button(f2,width=7,text='Login',font='arial 15 bold',bd=4,relief=GROOVE,bg='#f403fc',command=self.login)
+        btn1=Button(f2,width=7,text='Login',font='arial 15 bold',bd=4,relief=GROOVE,bg='#f403fc',command=Main_page)
         btn1.place(x=140,y=200)
         
         btn2=Button(f2,height=2,width=13,text='Change Password',font='arial 10 bold',bd=4,relief=GROOVE,bg='#fc0303',command=self.change_design)
@@ -106,7 +106,69 @@ class Phonebook(object):
              messagebox.showerror('Error','Invalid Credentials')
          else:
             messagebox.showinfo('Information','Enter Your Respective Credentials')  
-        
+            
+class Main_page(Toplevel):
+   
+   def __init__(self):
+      Toplevel.__init__(self)
+      self.title("My Contacts")
+      self.geometry('1000x690+170+0')
+      self.resizable(False,False)
+      
+      top=Frame(self,height=150,bg='#03fcfc',bd=8,relief=GROOVE)
+      top.pack(fill=X)
+      self.bottom=Frame(self,height=500,bg='#0335fc',bd=8,relief=GROOVE)
+      self.bottom.pack(fill=X)
+      heading=Label(top,text="Our PhoneBook App",font='arial 55 bold',bg='#fc0317',fg='#0335fc')
+      heading.place(x=70,y=10)
+      date2=Label(top,text="Today's Date :"+date,font='arial 18 bold',bg='#fc0317')
+      date2.place(x=670,y=95)
+
+      f1=Frame(self.bottom,height=325,width=220,bg='blue',bd=5,relief=GROOVE)
+      f1.place(x=60,y=70)
+      f2=Frame(f1,height=295,width=190,bd=5,relief=GROOVE)
+      f2.place(x=10,y=10)
+
+      btn1=Button(f2,text='My Contacts',width=10,font='arial 18 bold',bg='skyblue',bd=5,relief=GROOVE)
+      btn1.place(x=15,y=30)
+      btn2=Button(f2,text='Add Contact',width=10,font='arial 18 bold',bg='white',bd=5,relief=GROOVE,command=self.add_contact)
+      btn2.place(x=10,y=110)
+      btn3=Button(f2,text='About Us',width=10,font='arial 18 bold',bg='pink',bd=5,relief=GROOVE)
+      btn3.place(x=10,y=190)
+    
+    
+   def add_contact(self):
+    f3=Frame(self.bottom,height=500,width=600,bd=10,relief=GROOVE,bg='white')
+    f3.place(x=370,y=10)
+    Label(f3,text='Add Contacts Form',font='arial 25 bold',bg='white',fg='blue').place(x=150,y=10)
+    fname=Label(f3,text='First Name',font='arial 15 bold',bg='white')
+    fname.place(x=80,y=100)
+    self.fname=Entry(f3,bd=3)
+    self.fname.place(x=220,y=100,height=30,width=290)
+
+    lname=Label(f3,text='Last Name',font='airal 15 bold',bg='white')
+    lname.place(x=80,y=160)
+    self.lname=Entry(f3,bd=3)
+    self.lname.place(x=220,y=160,height=30,width=290)
+
+    email=Label(f3,text='Email',font='airal 15 bold',bg='white')
+    email.place(x=80,y=200)
+    self.email=Entry(f3,bd=3)
+    self.email.place(x=220,y=220,height=30,width=290)
+    
+    mobile=Label(f3,text='Mobile No.',font='airal 15 bold',bg='white')
+    mobile.place(x=80,y=280)
+    self.mobile=Entry(f3,bd=3)
+    self.mobile.place(x=220,y=280,height=30,width=290)
+    
+    address=Label(f3,text='Address',font='airal 15 bold',bg='white')
+    address.place(x=80,y=340)
+    self.address=Text(f3,bd=5)
+    self.address.place(x=220,y=340,height=60,width=290)
+
+    btn=Button(f3,width=7,text='ADD',bd=5,font='airal 13 bold',bg='skyblue')
+    btn.place(x=250,y=430)
+                  
         
         
         
