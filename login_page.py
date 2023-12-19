@@ -384,7 +384,7 @@ class Main_page(Toplevel):
         self.listbox.insert(END, "---------------------------------")
 
         for i in person:
-          self.listbox.insert(END, str(i[0]) + ".  " + str(i[1]) + " " + str(i[2]))
+            self.listbox.insert(END, str(i[0]) + ".  " + str(i[1]) + " " + str(i[2]))
       
   
       
