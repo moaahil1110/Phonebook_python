@@ -8,7 +8,6 @@ date=datetime.datetime.now()
 date=date.strftime('%d-%m-%Y')
 
 
-
 conn=sqlite3.connect('phonebook.db')
 curr=conn.cursor()
 
@@ -126,7 +125,7 @@ class Main_page(Toplevel):
     date2=Label(top,text="Today's Date :"+date,font='arial 18 bold',bg='#fc0317')
     date2.place(x=670,y=95) 
         
-    f1=Frame(self.bottom,height=325,width=220,bg="#027afa",bd=5,relief=GROOVE)
+    f1=Frame(self.bottom,height=325,width=250,bg="#027afa",bd=5,relief=GROOVE)
     f1.place(x=7,y=70)
     f2=Frame(f1,height=295,width=190,bd=5,relief=GROOVE)
     f2.place(x=10,y=10)
@@ -206,7 +205,7 @@ class Main_page(Toplevel):
         heading.place(x=150,y=5)
 
         scroll=Scrollbar(f3,orient=VERTICAL)
-        self.listbox=Listbox(f3,width=52,height=28,font='arial 13 bold')
+        self.listbox=Listbox(f3,width=43,height=28,font='arial 13 bold')
         self.listbox.grid(row=0,column=0,padx=(40,0))
         scroll.config(command=self.listbox.yview)
         self.listbox.config(yscrollcommand=scroll.set)
@@ -229,7 +228,14 @@ class Main_page(Toplevel):
         btnupdate.grid(row=0,column=2,padx=7,pady=63,sticky=N)
         btndelete=Button(f3,text='Delete',width=8,font='Sans 12 bold',command=self.delete_record)
         btndelete.grid(row=0,column=2,padx=7,pady=93,sticky=N)
+        btnascend=Button(f3,text='Sort Ascending',width=15,font='Sans 12 bold',command=self.sort_contacts(ascending=True))
+        btnascend.grid(row=0,column=2,padx=7,pady=123,sticky=N)
+        btndescend=Button(f3,text='Sort Descending',width=15,font='Sans 12 bold',command=self.sort_contacts(ascending=False))
+        btndescend.grid(row=0,column=2,padx=7,pady=153,sticky=N)
+
         
+        
+         
   def display_selectid(self):
       try:
        selected_item=self.listbox.curselection()
@@ -369,6 +375,17 @@ class Main_page(Toplevel):
 
         except:
             pass
+  
+  def sort_contacts(self, ascending=True):
+        self.listbox.delete(0, END)  # Clear the current listbox content
+        person = curr.execute("SELECT * FROM addpeople ORDER BY FNAME ASC" if ascending else "SELECT * FROM addpeople ORDER BY FNAME DESC").fetchall()
+
+        self.listbox.insert(END, "S.No       Name")
+        self.listbox.insert(END, "---------------------------------")
+
+        for i in person:
+          self.listbox.insert(END, str(i[0]) + ".  " + str(i[1]) + " " + str(i[2]))
+      
   
       
 def main():
