@@ -136,6 +136,7 @@ class Main_page(Toplevel):
     btn2.place(x=10,y=110)
     btn3=Button(f2,text='About Us',font='arial 18 bold',bg='#f059e6',bd=5,relief=GROOVE,command=self.about_us)
     btn3.place(x=10,y=190)
+    
   
   def add_people(self):
       self.f1=Frame(self.bottom,height=500,width=600,bd=10,relief=GROOVE,bg='#f7f5f6')
@@ -228,6 +229,8 @@ class Main_page(Toplevel):
         btnupdate.grid(row=0,column=2,padx=7,pady=63,sticky=N)
         btndelete=Button(f3,text='Delete',width=8,font='Sans 12 bold',command=self.delete_record)
         btndelete.grid(row=0,column=2,padx=7,pady=93,sticky=N)
+        
+        
         
     
   def display_selectid(self):
@@ -370,7 +373,7 @@ class Main_page(Toplevel):
         except:
             pass
   
-  
+
       
 def main():
     win = Tk()
